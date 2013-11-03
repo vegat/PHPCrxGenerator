@@ -91,7 +91,7 @@ class CrxGenerator {
         $zipContents = file_get_contents($zipArchive);
 
         // Second step - create file signature
-        $privateKey = openssl_pkey_get_private($this->privateKeyContents);\
+        $privateKey = openssl_pkey_get_private($this->privateKeyContents);
         openssl_sign($zipContents, $signature, $privateKey, 'sha1');
         openssl_free_key($privateKey);
 
