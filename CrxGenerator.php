@@ -14,8 +14,6 @@
  */
 
 class CrxGenerator {
-    const KEY_FORMAT_DER = 'der';
-    const KEY_FORMAT_PEM = 'pem';
     const TEMP_ARCHIVE_EXT = '.zip';
 
     private $sourceDir = null;
@@ -113,8 +111,12 @@ class CrxGenerator {
         unset($zipArchive);
     }
 
+    /**
+     * @param $source - source dir
+     * @param $outputFile - output file
+     * @return bool - success?
+     */
     private function createZipArchive($source, $outputFile) {
-
         if (!extension_loaded('zip') || !file_exists($source)) {
             return false;
         }
@@ -131,9 +133,10 @@ class CrxGenerator {
             foreach ($files as $file) {
                 $file = str_replace('\\', '/', $file);
 
-                // Ignore "." and ".." folders
-                if( in_array(substr($file, strrpos($file, '/') + 1), array('.', '..')) )
+                // Exclude "." and ".." folders
+                if( in_array(substr($file, strrpos($file, '/') + 1), array('.', '..')) ) {
                     continue;
+                }
 
                 $file = realpath($file);
 
